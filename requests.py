@@ -1,4 +1,3 @@
-import view
+import view as v
 
-
-requests = {"GET": {}, "POST": {}, "PUT": {}, "DELETE": {}}
+requests_list = {"GET": {"data_client"}, "POST": {"authorization": v.client_authorization}, "PUT": {}, "DELETE": {}}

@@ -1,13 +1,14 @@
 import psycopg2
 from psycopg2 import Error
 
-class Datebase:
+
+class Database:
     def __init__(self, user, password, host, port, database):
         self.user = user
         self.password = password
         self.host = host
         self.port = port
-        self.datebase = database
+        self.database = database
         self.connection = None
         self.cursor = None
 
@@ -15,7 +16,7 @@ class Datebase:
         try:
             # Подключение к существующей базе данных
             self.connection = psycopg2.connect(user=self.user, password=self.password, host=self.host, port=self.port,
-                                               database=self.datebase)
+                                               database=self.database)
             self.cursor = self.connection.cursor()
         except (Exception, Error) as error:
             print("Ошибка при работе с PostgreSQL", error)
@@ -33,7 +34,8 @@ class Datebase:
 
     def post_request(self, text_request):
         self.cursor.execute(text_request)
-        self.connection.commit()
+        record = self.cursor.fetchall()
+        return record
 
     def put_request(self, text_request):
         self.cursor.execute(text_request)
@@ -44,4 +46,4 @@ class Datebase:
         self.connection.commit()
 
 
-date_base = Datebase("postgres", "nioklCH545565", "127.0.0.1", "5432", "EES")
+data_base = Database("postgres", "nioklCH545565", "127.0.0.1", "5432", "EES")
