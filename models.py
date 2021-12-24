@@ -47,3 +47,5 @@ class Database:
 
 
 data_base = Database("postgres", "nioklCH545565", "127.0.0.1", "5432", "EES")
+
+
