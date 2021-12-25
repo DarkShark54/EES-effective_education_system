@@ -25,7 +25,7 @@ class Database:
         if self.connection:
             self.cursor.close()
             self.connection.close()
-            print("Соединение с PostgreSQL закрыто")
+            print("Соединение с PostgreSQL закрыто ")
 
     def get_request(self, text_request):
         self.cursor.execute(text_request)

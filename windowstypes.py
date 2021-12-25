@@ -119,13 +119,13 @@ class mainwindow():
        self.classcombo.grid(column=0, row=1, ipady=10,ipadx=20)
 
 
-       print( self.classcombo.current(),  self.classcombo.get())
+       print(self.classcombo.current(), self.classcombo.get())
 
        subj_value = [key for key in self.data.keys()]
-       self.subjectcombo = ttk.Combobox(self.window,values= subj_value,
-                                        postcommand = self.changeclass)
+       self.subjectcombo = ttk.Combobox(self.window, values= subj_value,
+                                        postcommand=self.changeclass)
 
-       self.subjectcombo.grid(column=0, row=0, ipady=10,ipadx=20)
+       self.subjectcombo.grid(column=0, row=0, ipady=10, ipadx=20)
        self.subjectcombo.current(0)
 
 
@@ -137,7 +137,7 @@ class mainwindow():
                   command=self.tree_button,bg="#009393",fg='#ffffff')
        form_btn.grid(column=0, row=2, ipady=10,ipadx=20,pady= 5, sticky='s')
 
-       self.sript_label1 = Label(font = self.font_label,text="Тема не пройдена",background="#DBDBDB")
+       self.sript_label1 = Label(font = self.font_label,text="Тема не пройдена", background="#DBDBDB")
        self.sript_label1.grid(column=0, row=3, ipady=10,ipadx=20, sticky='nswe')
        self.sript_label2 = Label(font = self.font_label,text="Тема усвоена не полностью",background="#FFFB98")
        self.sript_label2.grid(column=0, row=4, ipady=10,ipadx=20, sticky='nswe')
@@ -157,7 +157,7 @@ class mainwindow():
 
 
     dict_subj_of_theme_subtopic = index("GET", "subj_theme", self.subjectcombo.get().split(' ')[0])
-    self.label = Label(font = self.font_header,text="",background="#FFF")
+    self.label = Label(font=self.font_header, text="", background="#FFF")
     count = 0
     for k in dict_subj_of_theme_subtopic.keys():
         count+=1
@@ -182,7 +182,7 @@ class mainwindow():
      self.button_list.append([])
      self.canvas_list.append([])
      i+=1
-     self.button_list[i-1].append( Button(self.window,font = self.font_header, text=maintopic, command = lambda button_text = maintopic: self.script_button(button_text)))
+     self.button_list[i-1].append( Button(self.window,font = self.font_header, text=maintopic, command=lambda button_text = maintopic: self.script_button(button_text)))
      self.button_list[i-1][0].grid(column=i, row=0, ipady=10, ipadx=20, padx = 20,sticky='s')
 
      j=0
