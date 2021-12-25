@@ -14,7 +14,7 @@ class Authorization():
        self.header_padding = {'padx': 10, 'pady': 12}
        self.window = Tk()
        self.window.geometry('250x270')
-       self.data = None
+       self.data = 0
        main_label = Label(self.window,
                    text='Login',
                    font=self.font_header,
@@ -53,9 +53,9 @@ class Authorization():
    def button(self):
         username = self.username_entry.get()
         password = self.password_entry.get()
-        professor_id = index("POST","authorization",[username,password])
+        professor_id = index("POST","authorization", [username, password])
         if professor_id:
-            self.data = professor_id
+            self.data = professor_id[0][0]
             self.quit()
         else:
             messagebox.showinfo('Error', 'Incorrect')
@@ -183,7 +183,7 @@ class mainwindow():
      self.canvas_list.append([])
      i+=1
      self.button_list[i-1].append( Button(self.window,font = self.font_header, text=maintopic, command = lambda button_text = maintopic: self.script_button(button_text)))
-     self.button_list[i-1][0].grid(column=i, row=0, ipady=10, ipadx=40, padx = 20,sticky='s')
+     self.button_list[i-1][0].grid(column=i, row=0, ipady=10, ipadx=20, padx = 20,sticky='s')
 
      j=0
      for subtopic in dict_subj_of_theme_subtopic[maintopic]:
@@ -191,20 +191,16 @@ class mainwindow():
         j+=1
         self.canvas_list[i-1].append(Canvas(self.window,width=120, height=50))
         self.canvas_list[i-1][j-1].create_line(100, 0, 100, 150)
-        self.canvas_list[i-1][j-1].grid(column=i, row=j, ipady=10, ipadx=40, padx=0, pady=0, sticky='n')
+        self.canvas_list[i-1][j-1].grid(column=i, row=j, ipady=10, ipadx=20, padx=0, pady=0, sticky='n')
 
         self.button_list[i-1].append( Button(self.window,font = self.font_header, text = subtopic, command = lambda button_text = subtopic: self.script_button(button_text)))
-        self.button_list[i-1][j].grid(column=i, row=j, ipady=10, ipadx=40, padx=10, sticky='s')
-
+        self.button_list[i-1][j].grid(column=i, row=j, ipady=10, ipadx=20, padx=10, sticky='s')
 
 
    def script_button(self, button_name):
-
-
-        list_students_marks = index("GET","students_marks", [button_name,self.classcombo.get()])
-
-
-        self.label.config(text = list_students_marks[0]+list_students_marks[1])
+        list_students_marks = index("GET", "students_marks", [button_name, self.classcombo.get()])
+        print(list_students_marks)
+        self.label.config(text=list_students_marks)
         self.label.grid(column=1000, row=0)
 
 

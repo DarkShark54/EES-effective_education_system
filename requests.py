@@ -2,8 +2,8 @@ def client_authorization(data_base=None, data=None):
     data_base.connection_to_base()
     text_request = """SELECT teacher.id as AUTORIZED
                     FROM teacher
-                    WHERE teacher.fio = {fio} AND teacher.password = {password};""".format(fio=data[0],
-                                                                                           password=data[1])
+                    WHERE teacher.fio = '{fio}' AND teacher.password = '{password}';""".format(fio=data[0],
+                                                                                               password=data[1])
     records = data_base.post_request(text_request)
     data_base.close_to_base()
     return records
@@ -89,7 +89,7 @@ def get_st_marks(data_base=None, data=None):
         conclusion = conclusion.format(theme=data[0], status="не была усвоена",
                                        recommend="Провести дополнительное занятие по данной теме")
 
-    return conclusion, students_failed_theme
+    return conclusion + students_failed_theme
 
 
 def get_theme_status(data_base=None, data=None):
