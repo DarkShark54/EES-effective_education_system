@@ -88,8 +88,8 @@ def get_st_marks(data_base=None, data=None):
     elif cnt >= len(records):
         conclusion = conclusion.format(theme=data[0], status="не была усвоена",
                                        recommend="Провести дополнительное занятие по данной теме")
-    records.insert(0, (conclusion, students_failed_theme))
-    return records
+
+    return conclusion, students_failed_theme
 
 
 def get_theme_status(data_base=None, data=None):
