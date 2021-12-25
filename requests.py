@@ -65,7 +65,8 @@ def get_st_marks(data_base=None, data=None):
                  "Данная тема {status} учениками.\n" \
                  "Рекомендованы следующие действия:\n" \
                  "  {recommend}.\n\n" \
-                 "Ниже представлена общая успеваемость класса по данной теме:\n"
+
+    students_failed_theme = "Ниже представлены ученики на которых стоит обратить внимание:\n"
     if not records:
         return "Тема: {theme}\n" \
                "Данная тема ещё не проходилась.".format(theme=data[0])
@@ -73,17 +74,21 @@ def get_st_marks(data_base=None, data=None):
     cnt = 0
     for record in records:
         if int(record[2]) <= 3:
+            students_failed_theme += "  id: {st_id}  ФИО: {st_fio}  Оценка: {st_mark}\n".format(st_id=record[0],
+                                                                                                st_fio=record[1],
+                                                                                                st_mark=record[2])
             cnt += 1
     if cnt == 0:
         conclusion = conclusion.format(theme=data[0], status="успешно усвоена",
                                        recommend="Переходить к следующей теме")
+        students_failed_theme = ""
     elif cnt < len(records):
         conclusion = conclusion.format(theme=data[0], status="частично усвоена",
                                        recommend="Повторить ключевые моменты перед переходом к следующей теме")
     elif cnt >= len(records):
         conclusion = conclusion.format(theme=data[0], status="не была усвоена",
                                        recommend="Провести дополнительное занятие по данной теме")
-    records.insert(0, conclusion)
+    records.insert(0, (conclusion, students_failed_theme))
     return records
 
 
