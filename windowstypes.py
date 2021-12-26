@@ -80,7 +80,7 @@ class mainwindow():
        self.window.resizable(width=False, height=False)
        self.window.title("EES")
        self.data = index("GET", "data_client", id)
-
+       # if self.data :
        self.window.columnconfigure(0, weight=0)
        self.window.columnconfigure(0, pad=0)
        self.window.rowconfigure(0, weight=0)
@@ -125,18 +125,20 @@ class mainwindow():
 
        self.classcombo.grid(column=0, row=1, ipady=10,ipadx=20)
 
+       self.classcombo.current()
 
-       print(self.classcombo.current(), self.classcombo.get())
+
 
        subj_value = [key for key in self.data.keys()]
-       self.subjectcombo = ttk.Combobox(self.window, values= subj_value,
-                                        postcommand=self.changeclass)
+       self.subjectcombo = ttk.Combobox(self.window, values= subj_value)
+
+       self.subjectcombo.bind("<<ComboboxSelected>>", lambda _ : self.changeclass())
 
        self.subjectcombo.grid(column=0, row=0, ipady=10, ipadx=20)
-       self.subjectcombo.current(0)
 
 
-       print( self.subjectcombo.current(),  self.subjectcombo.get())
+
+
 
        form_btn = Button(self.window,
                   font = self.font_header,
@@ -154,6 +156,7 @@ class mainwindow():
        self.sript_label4.grid(column=0, row=6, ipady=10,ipadx=20,  sticky='nswe')
 
        self.window.mainloop()
+
 
    def changeclass(self):
        currentsubj = self.subjectcombo.get()

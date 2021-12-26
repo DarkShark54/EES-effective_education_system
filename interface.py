@@ -2,5 +2,5 @@ import windowstypes as tw
 
 
 app = tw.Authorization()
-if app.data != 0:
+if app.data:
     tw.mainwindow(app.data)
