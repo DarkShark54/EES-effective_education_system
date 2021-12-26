@@ -1,5 +1,6 @@
 import psycopg2
 from psycopg2 import Error
+import datetime
 
 
 class Database:
@@ -19,13 +20,20 @@ class Database:
                                                database=self.database)
             self.cursor = self.connection.cursor()
         except (Exception, Error) as error:
+            with open("log.txt", 'a') as file_log:
+                file_log.write(str(datetime.datetime.now()) + ": Error! Failed to connect to database.\n")
             print("Ошибка при работе с PostgreSQL", error)
+
+    def check_connection_to_base(self):
+        if self.connection is None or self.cursor is None:
+            return False
+        else:
+            return True
 
     def close_to_base(self):
         if self.connection:
             self.cursor.close()
             self.connection.close()
-            print("Соединение с PostgreSQL закрыто ")
 
     def get_request(self, text_request):
         self.cursor.execute(text_request)
@@ -46,6 +54,22 @@ class Database:
         self.connection.commit()
 
 
-data_base = Database("postgres", "nioklCH545565", "127.0.0.1", "5432", "EES")
-
-
+config = {"user": None, "password": None, "host_ip": None, "port": None, "database_name": None}
+file_config = open("config.txt")
+try:
+    for string in file_config.readlines()[1:]:
+        if string.split('=')[0] in config.keys():
+            config[string.split('=')[0]] = string.split('=')[1][:len(string.split('=')[1])-1]
+    if None in config.values():
+        with open("log.txt", 'a') as file_log:
+            file_log.write(str(datetime.datetime.now()) + ": Error! The database settings file is not formed correctly.\n")
+        database = None
+    else:
+        database = Database(config["user"], config["password"],
+                            config["host_ip"], config["port"], config["database_name"])
+except IndexError:
+    with open("log.txt", 'a') as file_log:
+        file_log.write(str(datetime.datetime.now()) + ": Error! The database settings file is not formed correctly.\n")
+    database = None
+finally:
+    file_config.close()

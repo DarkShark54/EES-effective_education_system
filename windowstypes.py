@@ -1,5 +1,6 @@
 from tkinter import *
 from view import index
+from view import check_database_connection
 from tkinter import messagebox
 from tkinter import ttk
 
@@ -34,13 +35,11 @@ class Authorization():
                        **self.base_padding)
        password_label.pack()
 
-
        self.password_entry = Entry(self.window,
                        bg='#fff',
                        fg='#444',
                        font=self.font_entry)
        self.password_entry.pack()
-
 
        send_btn = Button(self.window,
                   text='          Enter          ',
@@ -50,16 +49,17 @@ class Authorization():
 
    def quit(self):
        self.window.destroy()
+
    def button(self):
+        messagebox.showinfo('Database connection', check_database_connection())
         username = self.username_entry.get()
         password = self.password_entry.get()
-        professor_id = index("POST","authorization", [username, password])
+        professor_id = index("POST", "authorization", [username, password])
         if professor_id:
             self.data = professor_id[0][0]
             self.quit()
         else:
             messagebox.showinfo('Error', 'Incorrect')
-
 
 
 class mainwindow():
@@ -116,17 +116,13 @@ class mainwindow():
        self.label.grid(column=1000, row=0)
        self.classcombo = ttk.Combobox(self.window)
 
-       self.classcombo.grid(column=0, row=1, ipady=10,ipadx=20)
-
-
-       print(self.classcombo.current(), self.classcombo.get())
+       self.classcombo.grid(column=0, row=1, ipady=10, ipadx=20)
 
        subj_value = [key for key in self.data.keys()]
        self.subjectcombo = ttk.Combobox(self.window, values= subj_value,
                                         postcommand=self.changeclass)
 
        self.subjectcombo.grid(column=0, row=0, ipady=10, ipadx=20)
-       self.subjectcombo.current(0)
 
 
        print( self.subjectcombo.current(),  self.subjectcombo.get())
@@ -154,14 +150,11 @@ class mainwindow():
        self.classcombo.config(value = classvalue)
 
    def tree_button(self):
-
-
     dict_subj_of_theme_subtopic = index("GET", "subj_theme", self.subjectcombo.get().split(' ')[0])
     self.label = Label(font=self.font_header, text="", background="#FFF")
     count = 0
     for k in dict_subj_of_theme_subtopic.keys():
-        count+=1
-
+        count += 1
         count += len(dict_subj_of_theme_subtopic[k])
     print(count)
     i = 0
@@ -214,10 +207,8 @@ class mainwindow():
             self.button_list[i-1].append(Button(self.window,font = self.font_header, text = subtopic, command = lambda button_text = subtopic: self.script_button(button_text), bg="#FF7272"))
         self.button_list[i-1][j].grid(column=i, row=j, ipady=10, ipadx=20, padx=10, sticky='s')
 
-
    def script_button(self, button_name):
         list_students_marks = index("GET", "students_marks", [button_name, self.classcombo.get()])
-        print(list_students_marks)
         self.label.grid_remove()
         self.label.config(text=list_students_marks)
         self.label.grid(column=1000, row=0)

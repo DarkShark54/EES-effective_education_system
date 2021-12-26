@@ -1,0 +1,6 @@
+Database configuration
+user=postgres
+password=nioklCH545565
+host_ip=127.0.0.1
+port=5432
+database_name=EES
