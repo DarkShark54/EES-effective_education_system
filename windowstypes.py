@@ -1,5 +1,6 @@
 from tkinter import *
 from view import index
+from view import check_database_connection
 from tkinter import messagebox
 from tkinter import ttk
 
@@ -51,11 +52,11 @@ class Authorization():
 
        self.window.mainloop()
 
-
-
    def quit(self):
        self.window.destroy()
+
    def button(self):
+        messagebox.showinfo('Database connection', check_database_connection())
         username = self.username_entry.get()
         password = self.password_entry.get()
         professor_id = index("POST","authorization", [username, password])
@@ -67,7 +68,6 @@ class Authorization():
             self.data = 0
 
 
-
 class mainwindow():
    def __init__(self, id):
          # кортежи и словари, содержащие настройки шрифтов и отступов
@@ -76,7 +76,7 @@ class mainwindow():
        self.font_label = ('Roboto', 11)
 
        self.window = Tk()
-       self.window.geometry('1910x580')
+       self.window.geometry('1800x580')
        self.window.resizable(width=False, height=False)
        self.window.title("EES")
        self.data = index("GET", "data_client", id)
@@ -136,10 +136,6 @@ class mainwindow():
 
        self.subjectcombo.grid(column=0, row=0, ipady=10, ipadx=20)
 
-
-
-
-
        form_btn = Button(self.window,
                   font = self.font_header,
                   text='Сформировать',
@@ -156,7 +152,6 @@ class mainwindow():
        self.sript_label4.grid(column=0, row=6, ipady=10,ipadx=20,  sticky='nswe')
 
        self.window.mainloop()
-
 
    def changeclass(self):
        currentsubj = self.subjectcombo.get()
@@ -224,7 +219,6 @@ class mainwindow():
         elif status_theme == "fail":
             self.button_list[i-1].append(Button(self.window, font=self.font_entry, text=subtopic, command=lambda button_text=subtopic: self.script_button(button_text), bg="#FF7272"))
         self.button_list[i-1][j].grid(column=i, row=j, ipady=10, ipadx=20, padx=10, sticky='s')
-
 
    def script_button(self, button_name):
         list_students_marks = index("GET", "students_marks", [button_name, self.classcombo.get()])
