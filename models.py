@@ -46,6 +46,6 @@ class Database:
         self.connection.commit()
 
 
-data_base = Database("postgres", "nioklCH545565", "127.0.0.1", "5432", "EES")
+data_base = Database("postgres", "gad90", "127.0.0.1", "5432", "EES")
 
 

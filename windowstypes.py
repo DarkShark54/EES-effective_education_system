@@ -14,6 +14,8 @@ class Authorization():
        self.header_padding = {'padx': 10, 'pady': 12}
        self.window = Tk()
        self.window.geometry('250x270')
+       self.window.resizable(width=False, height=False)
+       self.window.title("Авторизация")
        self.data = 0
        main_label = Label(self.window,
                    text='Login',
@@ -46,7 +48,10 @@ class Authorization():
                   text='          Enter          ',
                   command=self.button, bg="#009393",fg='#ffffff')
        send_btn.pack()
+
        self.window.mainloop()
+
+
 
    def quit(self):
        self.window.destroy()
@@ -59,6 +64,7 @@ class Authorization():
             self.quit()
         else:
             messagebox.showinfo('Error', 'Incorrect')
+            self.data = 0
 
 
 
@@ -68,10 +74,11 @@ class mainwindow():
        self.font_header = ('Roboto', 14)
        self.font_entry = ('Roboto', 12)
        self.font_label = ('Roboto', 11)
-       self.base_padding = {'padx': 10, 'pady': 8}
-       self.header_padding = {'padx': 10, 'pady': 12}
+
        self.window = Tk()
-       self.window.geometry('1520x580')
+       self.window.geometry('1910x580')
+       self.window.resizable(width=False, height=False)
+       self.window.title("EES")
        self.data = index("GET", "data_client", id)
 
        self.window.columnconfigure(0, weight=0)
@@ -155,7 +162,8 @@ class mainwindow():
 
    def tree_button(self):
 
-
+    self.label.config(text="")
+    self.label.grid_remove()
     dict_subj_of_theme_subtopic = index("GET", "subj_theme", self.subjectcombo.get().split(' ')[0])
     self.label = Label(font=self.font_header, text="", background="#FFF")
     count = 0
@@ -186,14 +194,14 @@ class mainwindow():
      i+=1
      status_theme = index("GET", "theme_status", [maintopic, self.classcombo.get()])
      if status_theme == "":
-        self.button_list[i-1].append(Button(self.window,font=self.font_header, text=maintopic, command=lambda button_text=maintopic: self.script_button(button_text), bg="#DBDBDB"))
+        self.button_list[i-1].append(Button(self.window,font=self.font_entry, text=maintopic, command=lambda button_text=maintopic: self.script_button(button_text), bg="#DBDBDB"))
      elif status_theme == "success":
-         self.button_list[i - 1].append(Button(self.window, font=self.font_header, text=maintopic, command=lambda button_text=maintopic: self.script_button(button_text), bg="#9BFF92"))
+         self.button_list[i - 1].append(Button(self.window, font=self.font_entry, text=maintopic, command=lambda button_text=maintopic: self.script_button(button_text), bg="#9BFF92"))
      elif status_theme == "partial success":
-         self.button_list[i - 1].append(Button(self.window, font=self.font_header, text=maintopic, command=lambda button_text=maintopic: self.script_button(button_text), bg="#FFFB98"))
+         self.button_list[i - 1].append(Button(self.window, font=self.font_entry, text=maintopic, command=lambda button_text=maintopic: self.script_button(button_text), bg="#FFFB98"))
      elif status_theme == "fail":
-         self.button_list[i - 1].append(Button(self.window, font=self.font_header, text=maintopic, command=lambda button_text=maintopic: self.script_button(button_text), bg="#FF7272"))
-     self.button_list[i-1][0].grid(column=i, row=0, ipady=10, ipadx=20, padx = 20,sticky='s')
+         self.button_list[i - 1].append(Button(self.window, font=self.font_entry, text=maintopic, command=lambda button_text=maintopic: self.script_button(button_text), bg="#FF7272"))
+     self.button_list[i-1][0].grid(column=i, row=0, ipady=10, ipadx=20, padx=20, sticky='s')
 
      j=0
      for subtopic in dict_subj_of_theme_subtopic[maintopic]:
@@ -205,21 +213,22 @@ class mainwindow():
 
         status_theme = index("GET", "theme_status", [subtopic, self.classcombo.get()])
         if status_theme == "":
-            self.button_list[i-1].append(Button(self.window,font = self.font_header, text = subtopic, command = lambda button_text = subtopic: self.script_button(button_text), bg="#DBDBDB"))
+            self.button_list[i-1].append(Button(self.window, font=self.font_entry, text=subtopic, command=lambda button_text=subtopic: self.script_button(button_text), bg="#DBDBDB"))
         elif status_theme == "success":
-            self.button_list[i-1].append(Button(self.window,font = self.font_header, text = subtopic, command = lambda button_text = subtopic: self.script_button(button_text), bg="#9BFF92"))
+            self.button_list[i-1].append(Button(self.window, font=self.font_entry, text=subtopic, command=lambda button_text=subtopic: self.script_button(button_text), bg="#9BFF92"))
         elif status_theme == "partial success":
-            self.button_list[i-1].append(Button(self.window,font = self.font_header, text = subtopic, command = lambda button_text = subtopic: self.script_button(button_text), bg="#FFFB98"))
+            self.button_list[i-1].append(Button(self.window, font=self.font_entry, text=subtopic, command = lambda button_text=subtopic: self.script_button(button_text), bg="#FFFB98"))
         elif status_theme == "fail":
-            self.button_list[i-1].append(Button(self.window,font = self.font_header, text = subtopic, command = lambda button_text = subtopic: self.script_button(button_text), bg="#FF7272"))
+            self.button_list[i-1].append(Button(self.window, font=self.font_entry, text=subtopic, command=lambda button_text=subtopic: self.script_button(button_text), bg="#FF7272"))
         self.button_list[i-1][j].grid(column=i, row=j, ipady=10, ipadx=20, padx=10, sticky='s')
 
 
    def script_button(self, button_name):
         list_students_marks = index("GET", "students_marks", [button_name, self.classcombo.get()])
         print(list_students_marks)
+        self.label.config(text="")
         self.label.grid_remove()
         self.label.config(text=list_students_marks)
-        self.label.grid(column=1000, row=0)
+        self.label.grid(column=1000, row=0, columnspan=2, rowspan=1000, sticky="nws")
 
 
